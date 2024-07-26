@@ -68,6 +68,11 @@
   margin-bottom: 20px;
 }
 
+.comment {
+  margin-top: 40px; /* Adjust spacing as needed */
+  padding: 20px;    /* Add padding if necessary */
+}
+
 @media screen and (max-width: 1536px) {
   .title {
     font-size: 54px;

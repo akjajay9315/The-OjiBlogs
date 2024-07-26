@@ -1,7 +1,7 @@
   import Menu from "@/components/Menu/Menu";
+  import Comments from "@/components/comments/Comments";
   import styles from "./singlePage.module.css";
   import Image from "next/image";
-  import Comments from "@/components/comments/Comments";
 
   // Function to convert raw Draft.js content to plain text
   const convertRawToPlainText = (rawContent) => {
