@@ -31,10 +31,12 @@
 
 .comments{
   margin-top: 50px;
+  z-index: 6;
 }
 
 .comment{
-  margin-bottom: 50px;
+  margin-bottom: 100px;
+  z-index: 6;
 }
 
 .user {
