@@ -552,7 +552,7 @@ const WritePage = () => {
         onChange={(e) => setCatSlug(e.target.value)}
       >
         <option value="ideas">ideas</option>
-        <option value="art">art</option>
+        <option value="style">style</option>
         <option value="fashion">fashion</option>
         <option value="food">food</option>
         <option value="culture">culture</option>
