@@ -86,7 +86,7 @@
 // };
 
 // export default Comments;
-"use client"
+"use client";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import useSWR from "swr";
@@ -105,7 +105,7 @@ const fetcher = async (url) => {
 
 const Comments = ({ postSlug }) => {
   const { status } = useSession();
-  const { data, mutate, isLoading } = useSWR(
+  const { data, mutate, isLoading, error } = useSWR(
     `https://localhost:3000/api/comments?postSlug=${postSlug}`,
     fetcher
   );
@@ -125,14 +125,16 @@ const Comments = ({ postSlug }) => {
         throw new Error("Failed to post comment");
       }
 
-      const data = await response.json();
-      console.log("Comment posted:", data);
+      const result = await response.json();
+      console.log("Comment posted:", result);
       setDesc(""); // Reset the desc state
       mutate(); // Refresh comments
     } catch (error) {
       console.error("Error posting comment:", error);
     }
   };
+
+  if (error) return <div>Error loading comments.</div>;
 
   return (
     <div className={styles.container}>
@@ -161,7 +163,7 @@ const Comments = ({ postSlug }) => {
                   {item?.user?.image && (
                     <Image
                       src={item.user.image}
-                      alt=""
+                      alt={item.user.name || "User image"}
                       width={50}
                       height={50}
                       className={styles.image}
@@ -169,7 +171,7 @@ const Comments = ({ postSlug }) => {
                   )}
                   <div className={styles.userInfo}>
                     <span className={styles.username}>{item.user.name}</span>
-                    <span className={styles.date}>{item.createdAt}</span>
+                    <span className={styles.date}>{new Date(item.createdAt).toLocaleDateString()}</span>
                   </div>
                 </div>
                 <p className={styles.desc}>{item.desc}</p>
