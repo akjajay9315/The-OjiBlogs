@@ -1,5 +1,5 @@
   import Menu from "@/components/Menu/Menu";
-  import Comments from "@/components/comments/Comments";
+  // import Comments from "@/components/comments/Comments";
   import styles from "./singlePage.module.css";
   import Image from "next/image";
 
@@ -72,9 +72,9 @@
         <div className={styles.content}>
           <div className={styles.post}>
             <div className={styles.descriptionText}>{plainTextDesc}</div>
-            <div className={styles.comment}>
+            {/* <div className={styles.comment}>
               <Comments postSlug={slug} />
-            </div>
+            </div> */}
           </div>
           <Menu />
         </div>
