@@ -100,20 +100,20 @@ const convertRawToPlainText = (rawContent) => {
   }
 };
 
-const Card = ({ key, item }) => {
+const Card = ({ item }) => {
   // Convert raw Draft.js content to plain text
   const plainTextDesc = convertRawToPlainText(item.desc);
 
   return (
-    <div className={styles.container} key={key}>
+    <div className={styles.container}>
       {item.img && (
         <div className={styles.imageContainer}>
           <Image
             src={item.img}
-            alt=""
+            alt={item.title || "Image"} // Improved alt text
             fill
             className={styles.image}
-            sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw" // Adjust based on design
+            sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority // Optional: Add if this image is critical
           />
         </div>
@@ -125,15 +125,16 @@ const Card = ({ key, item }) => {
           </span>
           <span className={styles.category}>{item.catSlug}</span>
         </div>
-        <Link href={`/posts/${item.slug}`}>
+        <Link href={`/posts/${item.slug}`} passHref>
           <h1>{item.title}</h1>
         </Link>
         <div
           className={styles.desc}
           dangerouslySetInnerHTML={{ __html: plainTextDesc.substring(0, 60) }} // Display a shortened version of the description
         />
-        <Link href={`/posts/${item.slug}`} className={styles.link}>
-          Read More
+        <Link href={`/posts/${item.slug}`} passHref>
+          <a className={styles.link}>Read More</a>{" "}
+          {/* Ensure link is styled as expected */}
         </Link>
       </div>
     </div>
@@ -141,6 +142,7 @@ const Card = ({ key, item }) => {
 };
 
 export default Card;
+
 
 
 
