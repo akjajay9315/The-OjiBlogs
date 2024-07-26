@@ -6,9 +6,9 @@
 
 // const getData = async (page, cat) => {
 //   const res = await fetch(
-//     `http://localhost:3000/api/posts?page=${page}&cat=${cat || ""}`,
+//     `${process.env.NEXTAUTH_URL}api/posts?page=${page}&cat=${cat || ""}`,
 //     // const res = await fetch(
-//     // `http://localhost:3000/api/posts?page=${page}}`,
+//     // `${process.env.NEXTAUTH_URL}api/posts?page=${page}}`,
 //     {
 //       cache: "no-store",
 //     }
@@ -55,7 +55,7 @@ import Image from "next/image";
 import Card from "../card/Card";
 
 const getData = async (page, cat) => {
-  const url = `http://localhost:3000/api/posts?page=${page}&cat=${cat || ""}`;
+  const url = `${process.env.NEXTAUTH_URL}api/posts?page=${page}&cat=${cat || ""}`;
   console.log("Fetching URL:", url);
   const res = await fetch(url, { cache: "no-store" });
 
