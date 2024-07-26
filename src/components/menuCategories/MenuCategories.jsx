@@ -12,10 +12,10 @@ const MenuCategories = () => {
         Ideas
       </Link>
       <Link
-        href="/blog?cat=style"
+        href="/blog?cat=art"
         className={`${styles.categoryItem} ${styles.style}`}
       >
-        Style
+        Art
       </Link>
       <Link
         href="/blog?cat=fashion"
