@@ -86,32 +86,27 @@
 // };
 
 // export default Comments;
-
-
-"use client";
-
+"use client"
+import { useSession } from "next-auth/react";
+import { useState } from "react";
+import useSWR from "swr";
 import Link from "next/link";
 import styles from "./comments.module.css";
 import Image from "next/image";
-import useSWR from "swr";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
 
 const fetcher = async (url) => {
   const res = await fetch(url);
-
   if (!res.ok) {
-    const error = new Error(`An error occurred: ${res.statusText}`);
+    const error = new Error("An error occurred while fetching data.");
     throw error;
   }
-
   return res.json();
 };
 
 const Comments = ({ postSlug }) => {
   const { status } = useSession();
   const { data, mutate, isLoading } = useSWR(
-    `${process.env.NEXTAUTH_URL}api/comments?postSlug=${postSlug}`,
+    `https://localhost:3000/api/comments?postSlug=${postSlug}`,
     fetcher
   );
   const [desc, setDesc] = useState("");
@@ -127,11 +122,11 @@ const Comments = ({ postSlug }) => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Failed to post comment:", errorData.message);
         throw new Error("Failed to post comment");
       }
 
+      const data = await response.json();
+      console.log("Comment posted:", data);
       setDesc(""); // Reset the desc state
       mutate(); // Refresh comments
     } catch (error) {
@@ -145,9 +140,9 @@ const Comments = ({ postSlug }) => {
       {status === "authenticated" ? (
         <div className={styles.write}>
           <textarea
-            placeholder="write a comment..."
+            placeholder="Write a comment..."
             className={styles.input}
-            value={desc} // Ensure the textarea reflects the state
+            value={desc}
             onChange={(e) => setDesc(e.target.value)}
           />
           <button className={styles.button} onClick={handleSubmit}>
@@ -159,7 +154,7 @@ const Comments = ({ postSlug }) => {
       )}
       <div className={styles.comments}>
         {isLoading
-          ? "loading"
+          ? "Loading..."
           : data?.map((item) => (
               <div className={styles.comment} key={item._id}>
                 <div className={styles.user}>
