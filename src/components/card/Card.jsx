@@ -40,11 +40,70 @@
 
 // export default Card;
 
+// Correctly commited------------------
+
+// import Image from "next/image";
+// import styles from "./card.module.css";
+// import Link from "next/link";
+
+// const Card = ({ key, item }) => {
+//   return (
+//     <div className={styles.container} key={key}>
+//       {item.img && (
+//         <div className={styles.imageContainer}>
+//           <Image
+//             src={item.img}
+//             alt=""
+//             fill
+//             className={styles.image}
+//             sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw" // Adjust based on design
+//             priority // Optional: Add if this image is critical
+//           />
+//         </div>
+//       )}
+//       <div className={styles.textContainer}>
+//         <div className={styles.detail}>
+//           <span className={styles.date}>
+//             {item.createdAt.substring(0, 10)} -{" "}
+//           </span>
+//           <span className={styles.category}>{item.catSlug}</span>
+//         </div>
+//         <Link href={`/posts/${item.slug}`}>
+//           <h1>{item.title}</h1>
+//         </Link>
+//         <div
+//           className={styles.desc}
+//           dangerouslySetInnerHTML={{ __html: item?.desc.substring(0, 60) }}
+//         />
+//         <Link href={`/posts/${item.slug}`} className={styles.link}>
+//           Read More
+//         </Link>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Card;
+
 import Image from "next/image";
 import styles from "./card.module.css";
 import Link from "next/link";
 
+// Function to convert raw Draft.js content to plain text
+const convertRawToPlainText = (rawContent) => {
+  try {
+    const contentState = JSON.parse(rawContent);
+    return contentState.blocks.map((block) => block.text).join("\n");
+  } catch (error) {
+    console.error("Error converting raw Draft.js content:", error);
+    return ""; // Return empty string in case of an error
+  }
+};
+
 const Card = ({ key, item }) => {
+  // Convert raw Draft.js content to plain text
+  const plainTextDesc = convertRawToPlainText(item.desc);
+
   return (
     <div className={styles.container} key={key}>
       {item.img && (
@@ -71,7 +130,7 @@ const Card = ({ key, item }) => {
         </Link>
         <div
           className={styles.desc}
-          dangerouslySetInnerHTML={{ __html: item?.desc.substring(0, 60) }}
+          dangerouslySetInnerHTML={{ __html: plainTextDesc.substring(0, 60) }} // Display a shortened version of the description
         />
         <Link href={`/posts/${item.slug}`} className={styles.link}>
           Read More
