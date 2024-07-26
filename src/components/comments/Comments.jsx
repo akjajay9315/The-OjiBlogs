@@ -95,14 +95,18 @@ import styles from "./comments.module.css";
 import Image from "next/image";
 
 const fetcher = async (url) => {
-  const res = await fetch(url);
-  if (!res.ok) {
-    const error = new Error("An error occurred while fetching data.");
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await res.json();
+    console.log("Fetched data:", data); // Log fetched data
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
     throw error;
   }
-  const data = await res.json();
-  console.log("Fetched data:", data); // Log fetched data
-  return data;
 };
 
 const Comments = ({ postSlug }) => {
@@ -136,8 +140,17 @@ const Comments = ({ postSlug }) => {
     }
   };
 
-  if (error) return <div>Error loading comments</div>;
-  if (isLoading) return <div>Loading...</div>;
+  if (error) {
+    return (
+      <div>
+        <p>Error loading comments: {error.message}</p>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className={styles.container}>
@@ -158,7 +171,7 @@ const Comments = ({ postSlug }) => {
         <Link href="/login">Login to write a comment</Link>
       )}
       <div className={styles.comments}>
-        {data?.length > 0 ? (
+        {data && data.length > 0 ? (
           data.map((item) => (
             <div className={styles.comment} key={item._id}>
               <div className={styles.user}>
