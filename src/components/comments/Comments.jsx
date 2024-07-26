@@ -86,7 +86,7 @@
 // };
 
 // export default Comments;
-"use client"
+"use client";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import useSWR from "swr";
@@ -100,12 +100,14 @@ const fetcher = async (url) => {
     const error = new Error("An error occurred while fetching data.");
     throw error;
   }
-  return res.json();
+  const data = await res.json();
+  console.log("Fetched data:", data); // Log fetched data
+  return data;
 };
 
 const Comments = ({ postSlug }) => {
   const { status } = useSession();
-  const { data, mutate, isLoading } = useSWR(
+  const { data, error, mutate, isLoading } = useSWR(
     `https://localhost:3000/api/comments?postSlug=${postSlug}`,
     fetcher
   );
@@ -134,6 +136,9 @@ const Comments = ({ postSlug }) => {
     }
   };
 
+  if (error) return <div>Error loading comments</div>;
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Comments</h1>
@@ -153,28 +158,30 @@ const Comments = ({ postSlug }) => {
         <Link href="/login">Login to write a comment</Link>
       )}
       <div className={styles.comments}>
-        {isLoading
-          ? "Loading..."
-          : data?.map((item) => (
-              <div className={styles.comment} key={item._id}>
-                <div className={styles.user}>
-                  {item?.user?.image && (
-                    <Image
-                      src={item.user.image}
-                      alt=""
-                      width={50}
-                      height={50}
-                      className={styles.image}
-                    />
-                  )}
-                  <div className={styles.userInfo}>
-                    <span className={styles.username}>{item.user.name}</span>
-                    <span className={styles.date}>{item.createdAt}</span>
-                  </div>
+        {data?.length > 0 ? (
+          data.map((item) => (
+            <div className={styles.comment} key={item._id}>
+              <div className={styles.user}>
+                {item?.user?.image && (
+                  <Image
+                    src={item.user.image}
+                    alt=""
+                    width={50}
+                    height={50}
+                    className={styles.image}
+                  />
+                )}
+                <div className={styles.userInfo}>
+                  <span className={styles.username}>{item.user.name}</span>
+                  <span className={styles.date}>{item.createdAt}</span>
                 </div>
-                <p className={styles.desc}>{item.desc}</p>
               </div>
-            ))}
+              <p className={styles.desc}>{item.desc}</p>
+            </div>
+          ))
+        ) : (
+          <p>No comments yet.</p>
+        )}
       </div>
     </div>
   );
