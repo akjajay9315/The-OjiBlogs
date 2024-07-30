@@ -28,7 +28,7 @@ const Featured = dynamic(() => import("@/components/featured/Featured"), {
   ssr: false,
 });
 const CategoryList = dynamic(
-  () => import("@/components/categoryList/CategoryList"),
+  () => import(`@/components/categoryList/CategoryList`),
   {
     ssr: false,
   }

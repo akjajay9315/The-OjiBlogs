@@ -54,6 +54,7 @@
 
 .content {
   display: flex;
+  flex-direction: column; /* Stack items vertically */
   gap: 50px;
 }
 
@@ -62,7 +63,9 @@
   margin-top: 60px;
 }
 
-.description p {
+.descriptionText {
+  white-space: pre-wrap; /* Maintain line breaks */
+  overflow-wrap: break-word; /* Allow long words to break */
   font-size: 20px;
   font-weight: 300;
   margin-bottom: 20px;
@@ -78,22 +81,25 @@
     font-size: 54px;
   }
 }
+
 @media screen and (max-width: 1280px) {
   .title {
     font-size: 48px;
   }
 }
+
 @media screen and (max-width: 1024px) {
   .imageContainer {
     display: none;
   }
 }
+
 @media screen and (max-width: 640px) {
   .title {
     font-size: 36px;
   }
 
-  .description p{
+  .descriptionText {
     font-size: 18px;
   }
 }
