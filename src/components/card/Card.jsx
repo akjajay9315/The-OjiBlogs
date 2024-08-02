@@ -125,16 +125,18 @@ const Card = ({ item }) => {
           </span>
           <span className={styles.category}>{item.catSlug}</span>
         </div>
-        <Link href={`/posts/${item.slug}`} passHref>
-          <h1>{item.title}</h1>
+        <Link href={`/posts/${item.slug}`} legacyBehavior>
+          <a>
+            <h1>{item.title}</h1>
+          </a>
         </Link>
         <div
           className={styles.desc}
-          dangerouslySetInnerHTML={{ __html: plainTextDesc.substring(0, 60) }} // Display a shortened version of the description
+          dangerouslySetInnerHTML={{ __html: plainTextDesc.substring(0, 60) }}
         />
-        <Link href={`/posts/${item.slug}`} passHref>
-          <a className={styles.link}>Read More</a>{" "}
-          {/* Ensure link is styled as expected */}
+        <div className={styles.views}>{item.views} views</div>
+        <Link href={`/posts/${item.slug}`} legacyBehavior>
+          <a className={styles.link}>Read More</a>
         </Link>
       </div>
     </div>
