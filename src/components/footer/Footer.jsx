@@ -1,15 +1,46 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import styles from "./footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
+  const [visitCount, setVisitCount] = useState(0);
+
+  useEffect(() => {
+    const sessionKey = "hasVisited";
+    const countKey = "visitCount";
+
+    // Check if the session has already recorded a visit
+    const hasVisited = sessionStorage.getItem(sessionKey);
+
+    if (!hasVisited) {
+      // If not visited, increment the count
+      const count = localStorage.getItem(countKey);
+      const newCount = count ? parseInt(count) + 1 : 1;
+
+      localStorage.setItem(countKey, newCount);
+      setVisitCount(newCount);
+
+      // Set the session visit flag
+      sessionStorage.setItem(sessionKey, "true");
+    } else {
+      // If already visited in this session, just get the count
+      const count = localStorage.getItem(countKey);
+      setVisitCount(count ? parseInt(count) : 0);
+    }
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.info}>
         <div className={styles.logo}>
           <Image src="/logo.png" alt="OjiBlogs" width={50} height={50} />
           <h1 className={styles.logoText}>OjiBlogs</h1>
+        </div>
+        {/* Display Visit Count */}
+        <div className={styles.visitCount}>
+          <h2 className="text-sm text-gray-500">Visits: {visitCount}</h2>
         </div>
         <p className={styles.desc}>
           OjiBlogs is a part of Ojiskills-bythe3D where users share and explore
