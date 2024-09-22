@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
-  const [visitCount, setVisitCount] = useState(0);
+  const [visitCount, setVisitCount] = useState(200);
 
   useEffect(() => {
     const sessionKey = "hasVisited";
