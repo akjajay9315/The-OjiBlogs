@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
-  const [visitCount, setVisitCount] = useState(229);
+  const [visitCount, setVisitCount] = useState(310);
 
   useEffect(() => {
     const sessionKey = "hasVisited";
@@ -17,7 +17,7 @@ const Footer = () => {
     if (!hasVisited) {
       // If not visited, increment the count
       const count = localStorage.getItem(countKey);
-      const newCount = count ? parseInt(count) + 1 :229;
+      const newCount = count ? parseInt(count) + 1 :310;
 
       localStorage.setItem(countKey, newCount);
       setVisitCount(newCount);
